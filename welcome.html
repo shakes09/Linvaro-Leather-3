@@ -1,0 +1,71 @@
+<!-- welcome.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome to Linvaro Leather</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fdf5f1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    h1 {
+      color: #6e3b3b;
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 20px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="greeting">Welcome!</h1>
+  <p>Redirecting you to the homepage...</p>
+
+  <script type="module">
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAL6BpwuISkU12T3stp6bemVgt6CL0GMPk",
+      authDomain: "linvaro-shop.firebaseapp.com",
+      projectId: "linvaro-shop",
+      storageBucket: "linvaro-shop.appspot.com",
+      messagingSenderId: "1088432356268",
+      appId: "1:1088432356268:web:24523319f1928c1a395809",
+      measurementId: "G-90599SM75H"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const isNew = localStorage.getItem('isNewUser') === 'true';
+        const name = user.displayName || user.email.split('@')[0];
+        const greeting = document.getElementById("greeting");
+
+        if (isNew) {
+          greeting.textContent = `Welcome to Linvaro Leather, ${name}!`;
+        } else {
+          greeting.textContent = `Welcome back, ${name}!`;
+        }
+
+        setTimeout(() => {
+          localStorage.removeItem('isNewUser');
+          window.location.href = "index.html";
+        }, 3000);
+      }
+    });
+  </script>
+</body>
+</html>

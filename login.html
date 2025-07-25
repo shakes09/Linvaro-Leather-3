@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Linvaro Login</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    body {
+      background: linear-gradient(to right, #141E30, #243B55);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      width: 100%;
+      max-width: 400px;
+      color: #fff;
+      display: none;
+    }
+    .container.show {
+      display: block;
+    }
+    .form-title {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-size: 1.6rem;
+    }
+    .input-group {
+      margin-bottom: 1rem;
+      position: relative;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+    .btn {
+      width: 100%;
+      padding: 10px;
+      background: #FFD700;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .or {
+      text-align: center;
+      margin: 1rem 0;
+      opacity: 0.6;
+    }
+    .google-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      color: #000;
+      padding: 10px;
+      justify-content: center;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .links {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .links button {
+      background: none;
+      color: #FFD700;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    #welcomeOverlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #141E30;
+      color: #FFD700;
+      font-size: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      flex-direction: column;
+    }
+    #welcomeOverlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .shake {
+      animation: shake 0.4s ease-in-out;
+    }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      20% { transform: translateX(-6px); }
+      40% { transform: translateX(6px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+      100% { transform: translateX(0); }
+    }
+  </style>
+</head>
+<body>
+
+<div id="welcomeOverlay"></div>
+
+<!-- Sign In -->
+<div class="container show" id="signIn">
+  <h2 class="form-title">Sign In to Linvaro</h2>
+  <form id="signInForm">
+    <div class="input-group">
+      <input type="email" id="loginEmail" placeholder="Email" required />
+    </div>
+    <div class="input-group">
+      <input type="password" id="loginPassword" placeholder="Password" required />
+      <span class="toggle-password" onclick="togglePassword('loginPassword', this)">👁️</span>
+    </div>
+    <button class="btn" type="submit">Sign In</button>
+  </form>
+  <p class="or">OR</p>
+  <div class="google-btn" id="googleSignInBtn">
+    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" height="20" />
+    <span>Sign in with Google</span>
+  </div>
+  <div class="links">
+    <p>Don't have an account?</p>
+    <button onclick="toggleForms()">Sign Up</button>
+  </div>
+</div>
+
+<!-- Sign Up -->
+<div class="container" id="signUp">
+  <h2 class="form-title">Create an Account</h2>
+  <form id="signUpForm">
+    <div class="input-group">
+      <input type="text" id="fName" placeholder="First Name" required />
+    </div>
+    <div class="input-group">
+      <input type="text" id="lName" placeholder="Last Name" required />
+    </div>
+    <div class="input-group">
+      <input type="email" id="signupEmail" placeholder="Email" required />
+    </div>
+    <div class="input-group">
+      <input type="password" id="signupPassword" placeholder="Password" required />
+      <span class="toggle-password" onclick="togglePassword('signupPassword', this)">👁️</span>
+    </div>
+    <button class="btn" type="submit">Sign Up</button>
+  </form>
+  <p class="or">OR</p>
+  <div class="google-btn" id="googleSignInBtn2">
+    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" height="20" />
+    <span>Sign up with Google</span>
+  </div>
+  <div class="links">
+    <p>Already have an account?</p>
+    <button onclick="toggleForms()">Sign In</button>
+  </div>
+</div>
+
+<!-- Script -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    signInWithPopup,
+    GoogleAuthProvider,
+    updateProfile
+  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAL6BpwuISkU12T3stp6bemVgt6CL0GMPk",
+    authDomain: "linvaro-shop.firebaseapp.com",
+    projectId: "linvaro-shop",
+    storageBucket: "linvaro-shop.appspot.com",
+    messagingSenderId: "1088432356268",
+    appId: "1:1088432356268:web:24523319f1928c1a395809",
+    measurementId: "G-90599SM75H"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+  const welcomeOverlay = document.getElementById("welcomeOverlay");
+
+  function showWelcomeAndRedirect(name, isNewUser) {
+    welcomeOverlay.innerHTML = `
+      <h1>${isNewUser ? "Welcome to Linvaro Leather" : "Welcome back"}, ${name}!</h1>
+      <p>Redirecting to homepage...</p>
+    `;
+    welcomeOverlay.classList.add("show");
+    setTimeout(() => {
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("displayName", name);
+      window.location.href = "index.html";
+    }, 3000);
+  }
+
+  function shakeInput(input) {
+    input.classList.add("shake");
+    setTimeout(() => input.classList.remove("shake"), 400);
+  }
+
+  document.getElementById("signInForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const emailInput = document.getElementById("loginEmail");
+    const passInput = document.getElementById("loginPassword");
+
+    try {
+      const result = await signInWithEmailAndPassword(auth, emailInput.value.trim(), passInput.value);
+      const name = result.user.displayName || "there";
+      showWelcomeAndRedirect(name, false);
+    } catch (err) {
+      shakeInput(emailInput);
+      shakeInput(passInput);
+    }
+  });
+
+  document.getElementById("signUpForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const fullName = `${fName.value.trim()} ${lName.value.trim()}`;
+    try {
+      const result = await createUserWithEmailAndPassword(auth, signupEmail.value.trim(), signupPassword.value);
+      await updateProfile(result.user, { displayName: fullName });
+      showWelcomeAndRedirect(fullName, true);
+    } catch (err) {
+      alert("Signup Error: " + err.message);
+    }
+  });
+
+  document.getElementById("googleSignInBtn").addEventListener("click", async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const name = result.user.displayName || "there";
+      const isNewUser = result._tokenResponse.isNewUser;
+      showWelcomeAndRedirect(name, isNewUser);
+    } catch (err) {
+      alert("Google Sign-In Error: " + err.message);
+    }
+  });
+
+  document.getElementById("googleSignInBtn2").addEventListener("click", async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const name = result.user.displayName || "there";
+      const isNewUser = result._tokenResponse.isNewUser;
+      showWelcomeAndRedirect(name, isNewUser);
+    } catch (err) {
+      alert("Google Sign-In Error: " + err.message);
+    }
+  });
+</script>
+
+<script>
+  function toggleForms() {
+    const signIn = document.getElementById("signIn");
+    const signUp = document.getElementById("signUp");
+    signIn.classList.toggle("show");
+    signUp.classList.toggle("show");
+  }
+
+  function togglePassword(inputId, icon) {
+    const input = document.getElementById(inputId);
+    input.type = input.type === "password" ? "text" : "password";
+    icon.textContent = input.type === "password" ? "👁️" : "🙈";
+  }
+</script>
+</body>
+</html>

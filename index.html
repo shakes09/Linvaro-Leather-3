@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Linvaro | Home</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet" />
+  <link href="https://fonts.cdnfonts.com/css/angelina-4" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- Header/Navbar -->
+<header>
+  <div class="logo-container">
+    <img src="images/linvaro-logo.png" alt="Linvaro Logo" class="logo">
+    <span class="logo-text">
+      <span class="linvaro">Linvaro</span>
+      <span class="leathers">Leather</span>
+      <p class="linvaro-tagline">modern leather essentials</p>
+    </span>
+  </div>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="catalogue.html">Catalogue</a></li>
+      <li><a href="about-us.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="cart.html">Cart</a></li>
+      <li><a href="login.html" id="navbarAuthBtn">Login</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hamburger button -->
+  <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-slide active" style="background-image: url('images/hero1.jpg');">
+    <div class="hero-content">
+      <h1>Welcome to Linvaro Leather</h1>
+      <p>Discover bold and modern essentials - crafted for those who lead with style</p>
+      <a href="catalogue.html" class="cta-button">Shop Now</a>
+    </div>
+  </div>
+  <!-- more slides -->
+</section>
+
+<!-- Featured Products, Tagline, Newsletter, Info/Contact, Footer (unchanged) -->
+ <!-- Featured Products Section -->
+  <!-- Featured Products Section -->
+<section class="featured-products">
+  <h2>Our Exclusive Picks</h2>
+  <div class="product-grid">
+
+    <div class="product-card">
+      <a href="product.html?name=Luxury%20Leather%20Bag&price=R4999&desc=A%20luxury%20leather%20bag%20for%20the%20discerning%20customer.&img=images/products/product1.jpg">
+        <img src="images/products/product1.jpg" alt="Luxury Leather Bag" />
+        <p class="product-name">Luxury Leather Bag</p>
+        <p class="product-price">R 4,999</p>
+      </a>
+    </div>
+
+    <div class="product-card">
+      <a href="product.html?name=Elegant%20Watch&price=R7499&desc=A%20stylish%20and%20elegant%20watch%20for%20any%20occasion.&img=images/products/product2.jpg">
+        <img src="images/products/product2.jpg" alt="Elegant Watch" />
+        <p class="product-name">Elegant Watch</p>
+        <p class="product-price">R 7,499</p>
+      </a>
+    </div>
+
+    <div class="product-card">
+      <a href="product.html?name=Leather%20Wallet&price=R2299&desc=A%20premium%20leather%20wallet%20with%20multiple%20compartments.&img=images/products/product3.jpg">
+        <img src="images/products/product3.jpg" alt="Leather Wallet" />
+        <p class="product-name">Leather Wallet</p>
+        <p class="product-price">R 2,299</p>
+      </a>
+    </div>
+
+  </div>
+  <a href="catalogue.html" class="view-all-btn">View All Products</a>
+</section>
+
+
+  <!-- Billionaire Tagline -->
+  <section class="tagline">
+    <h3>Feel Like a Billionaire with Linvaro Leather</h3>
+  </section>
+
+  <!-- Info & Contact Block -->
+<!-- Footer Newsletter -->
+<div class="newsletter-footer">
+  <div class="newsletter-left">
+    <h3>Subscribe to Our Newsletter</h3>
+    <p>Get early access to new arrivals, exclusive deals & insider updates.</p>
+  </div>
+
+  <form id="footer-newsletter-form" class="newsletter-form">
+    <input
+      type="email"
+      name="email"
+      placeholder="Enter your email address"
+      required
+      aria-label="Email address"
+    />
+
+    <label class="newsletter-checkbox">
+      <input type="checkbox" name="subscribe" required />
+      Subscribe now
+    </label>
+
+    <button type="submit">Subscribe</button>
+    <p id="footer-msg" class="newsletter-msg"></p>
+  </form>
+</div>
+
+<!-- Popup Newsletter -->
+<div id="subscribe-popup" class="popup">
+  <div class="popup-content">
+    <button class="close-popup" aria-label="Close">&times;</button>
+    <h2>Subscribe to our Newsletter</h2>
+    <p>Get the latest deals and updates directly to your inbox.</p>
+    <form id="popup-newsletter-form">
+      <input type="email" placeholder="Enter your email" required />
+      <button type="submit">Subscribe</button>
+    </form>
+    <div id="popup-msg" class="popup-message"></div>
+
+    <!-- Social follow section -->
+    <div class="popup-socials">
+      <p>Follow us on social for more deals:</p>
+      <!-- Instagram Icon -->
+      <a href="https://instagram.com/linvaroleather" target="_blank" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm0 1.5A4.25 4.25 0 003.5 7.75v8.5A4.25 4.25 0 007.75 20.5h8.5a4.25 4.25 0 004.25-4.25v-8.5A4.25 4.25 0 0016.25 3.5h-8.5zm4.25 3.25a4.5 4.5 0 110 9 4.5 4.5 0 010-9zm0 1.5a3 3 0 100 6 3 3 0 000-6zm4.25-.5a1 1 0 110 2 1 1 0 010-2z"/></svg>
+      </a>
+      <!-- WhatsApp Icon -->
+      <a href="https://wa.me/27762046424" target="_blank" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24"><path d="M20.52 3.48a11.59 11.59 0 00-16.4 0 11.52 11.52 0 00-3.04 8.12 11.47 11.47 0 002.5 6.5L2 22l4.02-1.31a11.47 11.47 0 006.5 2.5 11.52 11.52 0 008.12-3.04 11.59 11.59 0 000-16.4zm-3.11 11.94c-.23.66-1.32 1.27-1.81 1.36-.48.09-1.05.13-2.31-.36-2.62-1.03-4.32-3.42-4.46-3.58-.14-.16-1.14-1.4-1.14-2.67 0-1.27.67-1.89.9-2.14.23-.26.5-.33.67-.33.17 0 .33 0 .48 0 .15 0 .34-.05.52.39.18.44.59 1.5.64 1.61.06.11.1.24.02.38-.07.13-.11.21-.23.33-.11.11-.24.27-.34.41-.11.14-.23.29-.1.56.12.27.54.89 1.16 1.44.8.71 1.47.95 1.68 1.05.22.1.35.09.5-.05.15-.15.65-.75.82-.99.17-.24.35-.2.59-.12.23.08 1.44.67 1.69.79.25.13.41.19.47.3.07.11.07.65-.15 1.31z"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+
+
+  <section class="info-contact">
+    <div class="address">
+      <h4>Our Address</h4>
+      <p>Blairgowrie, 
+       <p> Randburg, Gauteng,
+        <p></p>South Africa
+        <p></p>2194
+    </div>
+
+    <div class="quick-links">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="about-us.html">About Us</a></li>
+        <li><a href="terms.html">Terms & Conditions</a></li>
+        <li><a href="returns.html">Returns & Refunds</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <div class="contact-info">
+      <h4>Contact Us</h4>
+      <p>WhatsApp: <a href="https://wa.me/27762046424" target="_blank">+27 76 204 6424</a></p>
+      <p>Email: <a href="mailto:linvaroleather@gmail.com">linvaroleather@gmail.com</a></p>
+    </div>
+  </section>
+
+
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Linvaro Leather. All rights reserved.</p>
+  </footer>
+<!-- 🔥 Add this script right before </body> -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAL6BpwuISkU12T3stp6bemVgt6CL0GMPk",
+    authDomain: "linvaro-shop.firebaseapp.com",
+    projectId: "linvaro-shop",
+    storageBucket: "linvaro-shop.appspot.com",
+    messagingSenderId: "1088432356268",
+    appId: "1:1088432356268:web:24523319f1928c1a395809",
+    measurementId: "G-90599SM75H"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const authBtn = document.getElementById("navbarAuthBtn");
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      authBtn.textContent = "Logout";
+      authBtn.href = "#";
+      authBtn.onclick = (e) => {
+        e.preventDefault();
+        logoutUser();
+      };
+    } else {
+      authBtn.textContent = "Login";
+      authBtn.href = "login.html";
+      authBtn.onclick = null;
+    }
+  });
+
+  function logoutUser() {
+    if (confirm("Are you sure you want to logout?")) {
+      signOut(auth).then(() => {
+        alert("You have been logged out.");
+        window.location.reload();
+      }).catch((error) => {
+        alert("Logout error: " + error.message);
+      });
+    }
+  }
+</script>
+
+</body>
+</html>

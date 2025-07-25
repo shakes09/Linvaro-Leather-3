@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout - Linvaro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/checkout.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo-container">
+      <a href="index.html" aria-label="Go to home page">
+        <img src="images/linvaro-logo.png" alt="Linvaro Logo" class="logo" />
+      </a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="catalogue.html">Catalogue</a></li>
+        <li><a href="about-us.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="cart.html">Cart</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Checkout Summary -->
+  <main class="checkout-container">
+    <h2>Order Summary</h2>
+    <div id="checkout-summary">
+      <!-- Items and total inserted via JS -->
+    </div>
+
+    <div id="delivery-estimate">
+      <!-- Delivery date and note inserted via JS -->
+    </div>
+
+    <button id="proceed-payment">Proceed to Payment</button>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Linvaro. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const summaryDiv = document.getElementById("checkout-summary");
+      const deliveryDiv = document.getElementById("delivery-estimate");
+      const proceedBtn = document.getElementById("proceed-payment");
+      const cart = JSON.parse(localStorage.getItem("linvaroCart")) || [];
+
+      // Holidays array (YYYY-MM-DD)
+      const holidays = [
+        "2025-01-01", // New Year's Day
+        "2025-04-27", // Freedom Day
+        "2025-12-25", // Christmas
+        "2025-12-26"  // Day of Goodwill
+        // Add more holidays here
+      ];
+
+      function formatDate(date) {
+        return date.toLocaleDateString("en-ZA", {
+          weekday: "long",
+          year: "numeric",
+          month: "short",
+          day: "numeric"
+        });
+      }
+
+      function formatDateISO(date) {
+        const y = date.getFullYear();
+        const m = String(date.getMonth() + 1).padStart(2, '0');
+        const d = String(date.getDate()).padStart(2, '0');
+        return `${y}-${m}-${d}`;
+      }
+
+      // Add business days skipping Sundays and holidays
+      function addBusinessDays(startDate, daysToAdd) {
+        let date = new Date(startDate);
+        let addedDays = 0;
+
+        while (addedDays < daysToAdd) {
+          date.setDate(date.getDate() + 1);
+
+          const isSunday = date.getDay() === 0;
+          const isHoliday = holidays.includes(formatDateISO(date));
+
+          if (!isSunday && !isHoliday) {
+            addedDays++;
+          }
+        }
+
+        return date;
+      }
+
+      // Get next business day after given date (skip Sunday & holidays)
+      function getNextBusinessDay(date) {
+        let nextDate = new Date(date);
+        nextDate.setHours(0,0,0,0); // normalize time
+        do {
+          nextDate.setDate(nextDate.getDate() + 1);
+          const isSunday = nextDate.getDay() === 0;
+          const isHoliday = holidays.includes(formatDateISO(nextDate));
+        } while (isSunday || isHoliday);
+        return nextDate;
+      }
+
+      if (cart.length === 0) {
+        summaryDiv.innerHTML = "<p>Your cart is empty.</p>";
+        proceedBtn.disabled = true;
+        return;
+      }
+
+      // Build order summary list and total
+      let total = 0;
+      const itemList = document.createElement("ul");
+
+      cart.forEach(item => {
+        let priceNum = parseFloat(item.price.toString().replace(/^R+/i, ''));
+        if (isNaN(priceNum)) priceNum = 0;
+        const quantity = parseInt(item.quantity) || 1;
+        total += priceNum * quantity;
+
+        const li = document.createElement("li");
+        li.textContent = `${item.name} - R${priceNum.toFixed(2)} x ${quantity}`;
+        itemList.appendChild(li);
+      });
+
+      const totalLine = document.createElement("p");
+      totalLine.innerHTML = `<strong>Total: R${total.toFixed(2)}</strong>`;
+
+      summaryDiv.appendChild(itemList);
+      summaryDiv.appendChild(totalLine);
+
+      // Determine the start date for counting business days
+      const today = new Date();
+
+      const todayIsSunday = today.getDay() === 0;
+      const todayIsHoliday = holidays.includes(formatDateISO(today));
+
+      let startDate;
+      if (todayIsSunday || todayIsHoliday) {
+        startDate = getNextBusinessDay(today);
+      } else {
+        // Check tomorrow, if it’s a Sunday or holiday, skip to next business day
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        if (tomorrow.getDay() === 0 || holidays.includes(formatDateISO(tomorrow))) {
+          startDate = getNextBusinessDay(tomorrow);
+        } else {
+          startDate = tomorrow;
+        }
+      }
+
+      // Delivery window: 3 to 7 business days starting from startDate (inclusive)
+      // subtract 1 because startDate is counted as day 1
+      const deliveryStart = addBusinessDays(startDate, 3 - 1);
+      const deliveryEnd = addBusinessDays(startDate, 7 - 1);
+
+      // Show delivery estimate and note
+      deliveryDiv.innerHTML = `
+        <p>Your delivery is estimated between <strong>${formatDate(deliveryStart)}</strong> to <strong>${formatDate(deliveryEnd)}</strong>.</p>
+        <p><strong>Note:</strong> Our delivery courier does not operate on Sundays. Orders placed on Sunday will be processed on Monday.</p>
+      `;
+
+      proceedBtn.addEventListener("click", () => {
+        window.location.href = "payment.html";
+      });
+    });
+  </script>
+</body>
+</html>
